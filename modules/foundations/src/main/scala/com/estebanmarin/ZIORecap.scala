@@ -10,7 +10,7 @@ import zio.http.Server
 import zio.json.*
 
 object ZIORecap extends ZIOAppDefault {
-  val simpleHealthEndpoint =
+  val healthEndpoint =
     endpoint
       .tag("health")
       .name("health")
@@ -24,9 +24,9 @@ object ZIORecap extends ZIOAppDefault {
 
   val serverProgram = Server.serve(
     ZioHttpInterpreter(ZioHttpServerOptions.default)
-      .toHttp(List(simpleHealthEndpoint))
+      .toHttp(List(healthEndpoint))
   )
 
   override def run =
-    Console.printLine("Hello, world!")
+    serverProgram.provide(Server.default)
 }
