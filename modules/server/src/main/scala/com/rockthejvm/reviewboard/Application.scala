@@ -1,6 +1,9 @@
 package com.rockthejvm.reviewboard
 
+import sttp.tapir.*
+import sttp.tapir.server.ziohttp.*
 import zio.*
+import zio.http.Server
 
 object Application extends ZIOAppDefault {
   override def run =
@@ -21,7 +24,5 @@ object Application extends ZIOAppDefault {
         .toHttp(List(healthEndpoint))
     )
 
-    override def run =
-      serverProgram.provide(Server.default)
-      }
+    serverProgram.provide(Server.default)
 }
