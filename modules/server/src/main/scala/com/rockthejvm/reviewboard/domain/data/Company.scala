@@ -13,6 +13,6 @@ final case class Company(
 )
 
 object Company {
-    given codec: JsonCodec[Company] = 
-        DeriveJsonCodec.gen[Company]
+  given codec: JsonCodec[Company] =
+    DeriveJsonCodec.gen[Company]
 }
