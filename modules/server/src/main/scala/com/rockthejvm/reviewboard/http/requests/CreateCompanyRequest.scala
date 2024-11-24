@@ -1,7 +1,7 @@
 package com.rockthejvm.reviewboard.http.requests
 
-import zio.json.*
 import com.rockthejvm.reviewboard.domain.data.Company
+import zio.json.*
 
 final case class CreateCompanyRequest(
     name: String,
@@ -9,10 +9,10 @@ final case class CreateCompanyRequest(
     location: Option[String] = None,
     country: Option[String] = None,
     image: Option[String] = None,
-    tags: List[String] = List()
+    tags: Option[List[String]] = None
 ) {
   def toCompany(id: Long): Company =
-    Company(id, name, url, location, country, image, tags)
+    Company(id, name, url, location, country, image, tags.get)
 }
 
 object CreateCompanyRequest {

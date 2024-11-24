@@ -12,4 +12,5 @@ object HttpApi {
     companyController <- CompanyControllers.makeZIO
     // add new controllers here
   } yield List(healthController, companyController)
+  def endpointsZIO = makeControllers.map(gatherRoutes)
 }
