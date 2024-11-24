@@ -49,9 +49,9 @@ object CompanyControllerSpec extends ZIOSpecDefault {
     },
     test("should get all companies") {
       val program = for {
-        backendStub <- backendStubZIO(_.create)
+        backendStub <- backendStubZIO(_.getAll)
         response <- basicRequest
-          .get(uri"/companies/1")
+          .get(uri"/companies")
           .send(backendStub)
       } yield response.body
 
