@@ -12,7 +12,7 @@ final case class CreateCompanyRequest(
     tags: Option[List[String]] = None
 ) {
   def toCompany(id: Long): Company =
-    Company(id, name, url, location, country, image, tags.getOrElse(List()))
+    Company(id, Company.makeSlug(name), url, location, country, image, tags.getOrElse(List()))
 }
 
 object CreateCompanyRequest {

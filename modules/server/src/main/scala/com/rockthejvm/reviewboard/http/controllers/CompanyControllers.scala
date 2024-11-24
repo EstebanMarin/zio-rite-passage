@@ -10,12 +10,12 @@ import collection.mutable
 class CompanyControllers private extends BaseController with CompanyEndpoints {
   // TODO implementation DB
   // in memory
-  val db = mutable.Map.empty[Long, Company]
+  val db = mutable.Map[Long, Company]()
   val create =
     companyEndpoint
       .serverLogicSuccess[Task](request => {
         ZIO.succeed {
-          val id         = db.size + 1
+          val id         = db.keys.maxOption.getOrElse(0L) + 1
           val slug       = Company.makeSlug(request.name)
           val newCompany = request.toCompany(id)
           db.put(id, newCompany)
