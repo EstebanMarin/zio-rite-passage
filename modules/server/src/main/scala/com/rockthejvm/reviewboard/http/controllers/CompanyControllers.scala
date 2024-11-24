@@ -2,11 +2,12 @@ package com.rockthejvm.reviewboard.http.controllers
 
 import com.rockthejvm.reviewboard.domain.data.*
 import com.rockthejvm.reviewboard.http.endpoints.CompanyEndpoints
+import sttp.tapir.server.ServerEndpoint
 import zio.*
 
 import collection.mutable
 
-class CompanyControllers private extends CompanyEndpoints {
+class CompanyControllers private extends BaseController with CompanyEndpoints {
   // TODO implementation DB
   // in memory
   val db = mutable.Map.empty[Long, Company]
@@ -22,7 +23,10 @@ class CompanyControllers private extends CompanyEndpoints {
 
       })
 
-  val getAll =
+  val getAll: ServerEndpoint[Any, Task] {
+    type SECURITY_INPUT = Unit; type PRINCIPAL = Unit; type INPUT = Unit; type ERROR_OUTPUT = Unit;
+    type OUTPUT         = List[Company]
+  } =
     getAllEndpoint
       .serverLogicSuccess[Task](_ => ZIO.succeed(db.values.toList))
 
@@ -30,6 +34,7 @@ class CompanyControllers private extends CompanyEndpoints {
     getByIdEndpoint
       .serverLogicSuccess[Task](id => ZIO.attempt(db.values.find(_.id == id.toLong).get))
 
+  val routes = List(create, getAll, getById)
 }
 
 object CompanyControllers {
