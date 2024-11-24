@@ -21,10 +21,10 @@ object CompanyControllerSpec extends ZIOSpecDefault {
       val request = CreateCompanyRequest("Test Company", "test@example.com")
       val createCompany = for {
         controller <- CompanyControllers.makeZIO
-        backendStub = SttpBackendStub(zioME)
-        interpreter = TapirStubInterpreter(backendStub)
+        // backendStub = SttpBackendStub(zioME)
+        interpreter = TapirStubInterpreter(SttpBackendStub(zioME))
         response <- ZIO.succeed(
-          interpreter
+          TapirStubInterpreter(SttpBackendStub(zioME))
             .whenServerEndpoint(controller.create)
             //           .thenRespond(Company(1, "Test Company", "test-company", Some("test@example.com")))
             //   .send(request)
