@@ -18,15 +18,13 @@ class CompanyControllers private extends BaseController with CompanyEndpoints {
           val id         = db.size + 1
           val slug       = Company.makeSlug(request.name)
           val newCompany = request.toCompany(id)
+          db.put(id, newCompany)
           newCompany
         }
 
       })
 
-  val getAll: ServerEndpoint[Any, Task] {
-    type SECURITY_INPUT = Unit; type PRINCIPAL = Unit; type INPUT = Unit; type ERROR_OUTPUT = Unit;
-    type OUTPUT         = List[Company]
-  } =
+  val getAll: ServerEndpoint[Any, Task] =
     getAllEndpoint
       .serverLogicSuccess[Task](_ => ZIO.succeed(db.values.toList))
 
