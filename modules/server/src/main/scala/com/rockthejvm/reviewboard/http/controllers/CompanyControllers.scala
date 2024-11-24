@@ -2,6 +2,7 @@ package com.rockthejvm.reviewboard.http.controllers
 
 import com.rockthejvm.reviewboard.domain.data.*
 import com.rockthejvm.reviewboard.http.endpoints.CompanyEndpoints
+import org.scalafmt.config.Indents.RelativeToLhs.`match`
 import sttp.tapir.server.ServerEndpoint
 import zio.*
 
@@ -30,7 +31,10 @@ class CompanyControllers private extends BaseController with CompanyEndpoints {
 
   val getById =
     getByIdEndpoint
-      .serverLogicSuccess[Task](id => ZIO.succeed(db.values.find(_.id == id.toLong).getOrElse(Company.empty)))
+      .serverLogic[Task](id => ZIO.attempt(db.values.find(_.id == id.toLong) match {
+        case Some(company) => Right(company)
+        case None => Left(("Not Found", "Company not found"))
+      }))
   
   val deleteById =
     deleteByIdEndpoint
