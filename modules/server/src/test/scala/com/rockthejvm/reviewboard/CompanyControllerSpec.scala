@@ -75,7 +75,7 @@ object CompanyControllerSpec extends ZIOSpecDefault {
         Assertion.assertion("testing getting a company by ID") { responseBody =>
           responseBody.toOption
             .flatMap(_.fromJson[Company].toOption)
-            .contains(List())
+            .contains(Company.empty)
         }
       )
     }
