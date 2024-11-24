@@ -34,5 +34,14 @@ trait CompanyEndpoints {
       .in("companies" / path[String]("id"))
       .get
       .out(jsonBody[Company])
+  
+  val deleteByIdEndpoint =
+    endpoint
+      .tag("company")
+      .name("deleteById")
+      .description("Delete a company by ID")
+      .in("companies" / path[String]("id"))
+      .delete
+      .out(plainBody[String])
 
 }

@@ -21,4 +21,5 @@ object Company {
       .split(" ")
       .map(_.toLowerCase())
       .mkString("-")
+  val empty: Company = Company(0, "", "")
 }
