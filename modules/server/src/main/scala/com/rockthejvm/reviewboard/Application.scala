@@ -13,6 +13,8 @@ object Application extends ZIOAppDefault {
       endpoints <- HttpApi.endpointsZIO
       // controller: HealthController                             <- HealthController.makeZIO
       // controllers: List[HealthController | CompanyControllers] <- HttpApi.makeControllers
+      
+
       server <-
         Server.serve(
           ZioHttpInterpreter(ZioHttpServerOptions.default).toHttp(endpoints)
